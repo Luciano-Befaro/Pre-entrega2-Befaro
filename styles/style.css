@@ -1,4 +1,4 @@
-/* Estilos generales */
+
 body 
 {
     font-family: Arial, sans-serif;
@@ -9,8 +9,7 @@ body
     text-align: center;
 }
   
-  /* Encabezado */
-  header 
+header 
 {
     background-color: #007bff;
     color: white;
@@ -18,26 +17,13 @@ body
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
   
-  header h1 
+header h1 
 {
     margin: 0;
     font-size: 2rem;
 }
-  
-  /* Contenido principal */
-  main 
-{
-    padding: 2rem;
-}
-  
-  main p 
-{
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-  
-  /* Pie de página */
-  footer 
+
+footer 
 {
     background-color: #007bff;
     color: white;
@@ -46,22 +32,4 @@ body
     bottom: 0;
     width: 100%;
     font-size: 0.9rem;
-}
-  
-  /* Botones (si se añaden en el futuro) */
-  button 
-{
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0.5rem;
-}
-  
-  button:hover 
-{
-    background-color: #0056b3;
 }
