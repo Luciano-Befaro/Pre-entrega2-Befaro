@@ -1,94 +1,111 @@
-alert("Bienvendios al simulador de atención al cliente");
 
-
+// Referencias del DOM
+const form = document.getElementById('interactionForm');
+const actionSelect = document.getElementById('action');
+const extraInput = document.getElementById('extraInput');
+const extraValue = document.getElementById('extraValue');
+const resultsContainer = document.getElementById('resultsContainer');
 
 // Historial de interacciones
-let historialInteracciones = [];
+let historialInteracciones = JSON.parse(localStorage.getItem('historial')) || [];
 
-// Función para registrar interacciones en el historial
-function registrarInteraccion(tipo, detalle) 
-{
-  historialInteracciones.push({ tipo, detalle, fecha: new Date() });
+// Límite máximo de registros en el historial
+const LIMITE_HISTORIAL = 3;
+
+// Función para guardar historial localStorage
+function guardarHistorial() {
+    // Si el historial excede el límite, elimina las entradas más antiguas
+    if (historialInteracciones.length > LIMITE_HISTORIAL) {
+    historialInteracciones = historialInteracciones.slice(-LIMITE_HISTORIAL);
+}
+  localStorage.setItem('historial', JSON.stringify(historialInteracciones));
 }
 
-// Función para mostrar el historial de interacciones
+
+// Función para registrar interacciones
+function registrarInteraccion(tipo, detalle) {
+    const nuevaInteraccion = { tipo, detalle, fecha: new Date().toLocaleString() };
+    historialInteracciones.push(nuevaInteraccion);
+    guardarHistorial();
+}
+
+// Función para mostrar historial
 function mostrarHistorial() {
-  if (historialInteracciones.length === 0) 
-    {
-        alert("No hay interacciones en el historial.");
+    if (historialInteracciones.length === 0) {
+        resultsContainer.innerHTML = '<p>No hay interacciones en el historial.</p>';
         return;
     }
 
-  let historialTexto = "Historial de interacciones:\n";
-  historialInteracciones.forEach((interaccion, index) => 
-    {
-        historialTexto += `${index + 1}. [${interaccion.fecha.toLocaleString()}] ${interaccion.tipo}: ${interaccion.detalle}\n`;
+    let historialHTML = '<h3>Historial de Interacciones:</h3><ul>';
+    historialInteracciones.forEach((interaccion, index) => {
+        historialHTML += `<li>${index + 1}. [${interaccion.fecha}] ${interaccion.tipo}: ${interaccion.detalle}</li>`;
     });
+    historialHTML += '</ul>';
 
-  alert(historialTexto);
+    resultsContainer.innerHTML = historialHTML;
 }
 
-let continuar = true;
+// Función principal para procesar acciones
+function procesarAccion(event) {
+    event.preventDefault();
 
-//opciones
-while (continuar)
-{
-let opciones = prompt("Elegi lo que deseas hacer:\n1. Saldo restante\n2. Completar pago\n3. Hablar con un asesor\n4. Calcular cuotas\n5. Mostrar historial de interacciones\n6. Finalizar");
+    const accion = actionSelect.value;
+    const detalle = extraValue.value || 'No especificado';
 
-if (opciones == 1) 
-{
-    alert("Tu saldo restante es de 30.000$");
-    registrarInteraccion("Consulta", "Saldo restante: 30.000$");
-} 
-else if (opciones == 2) 
-{
-    let monto = prompt("Indica el monto a abonar:");
-    if (!isNaN(parseFloat(monto))) 
-    {
-      alert(`¡Tu pago de ${monto}$ se completó con éxito!`);
-      registrarInteraccion("Pago", `Monto abonado: ${monto}$`);
-    } 
-    else 
-    {
-      alert("Por favor, ingresa un monto válido.");
+    let resultado = '';
+
+    switch (accion) {
+        case 'saldo':
+            resultado = 'Tu saldo restante es de 30.000$';
+            registrarInteraccion('Consulta', 'Saldo restante: 30.000$');
+            break;
+        case 'pago':
+            if (detalle.trim() === '') {
+                resultado = 'Por favor, completa el monto a abonar.'; // Mensaje de advertencia
+            } else if (isNaN(detalle) || Number(detalle) <= 0) {
+                resultado = 'Por favor, ingresa un monto válido.'; 
+            } else {
+                resultado = `¡Tu pago de ${detalle}$ se completó con éxito!`;
+                registrarInteraccion('Pago', `Monto abonado: ${detalle}$`);
+            }
+            break;
+        case 'asesor':
+            resultado = 'Aguarda un momento, hay una demora de 5 minutos.';
+            registrarInteraccion('Consulta', 'Contacto con asesor');
+            break;
+        case 'cuotas':
+            const [totalCuotas, cuotasPagadas] = detalle.split(',').map(Number);
+            if (isNaN(totalCuotas) || isNaN(cuotasPagadas) || cuotasPagadas > totalCuotas) {
+                resultado = 'Por favor, ingresa datos válidos (formato: totalCuotas,cuotasPagadas).';
+            } else {
+                const cuotasRestantes = totalCuotas - cuotasPagadas;
+                resultado = `Te quedan ${cuotasRestantes} cuotas por pagar.`;
+                registrarInteraccion('Consulta', `Cuotas restantes: ${cuotasRestantes}`);
+            }
+            break;
+        case 'historial':
+            mostrarHistorial();
+            return;
+        default:
+            resultado = 'Acción no reconocida.';
     }
-} 
-else if (opciones == 3) 
-{
-    alert("Aguarda un momento, hay una demora de 5 minutos.");
-    registrarInteraccion("Consulta", "Contacto con asesor");
-} 
-else if (opciones == 4) 
-{
-    let totalCuotas = parseInt(prompt("Ingresa la cantidad total de cuotas de tu plan:"));
-    let cuotasPagadas = parseInt(prompt("Ingresa cuántas cuotas ya has pagado:"));
 
-    if (isNaN(totalCuotas) || isNaN(cuotasPagadas)) 
-    {
-      alert("Por favor, ingresa números válidos.");
-    } 
-else if (cuotasPagadas > totalCuotas) 
-    {
-      alert("No puedes haber pagado más cuotas que las totales. Por favor verifica.");
-    } 
-    else 
-    {
-      let cuotasRestantes = totalCuotas - cuotasPagadas;
-      alert(`Te quedan ${cuotasRestantes} cuotas por pagar.`);
-      registrarInteraccion("Consulta", `Cuotas restantes: ${cuotasRestantes}`);
+    resultsContainer.innerHTML = `<p>${resultado}</p>`;
+    extraValue.value = '';
+}
+
+// Mostrar campo adicional 
+actionSelect.addEventListener('change', () => {
+    if (actionSelect.value === 'pago' || actionSelect.value === 'cuotas') {
+        extraInput.style.display = 'block';
+        extraValue.placeholder = actionSelect.value === 'pago' ? 'Monto a pagar' : 'Total cuotas, cuotas pagadas';
+    } else {
+        extraInput.style.display = 'none';
     }
-} 
-else if (opciones == 5) 
-{
-    mostrarHistorial();
-} 
-else if (opciones == 6) 
-{
-    alert("Hasta pronto, gracias por visitar este simulador <3");
-    continuar = false;
-} 
-else 
-{
-    alert("Opción no válida, por favor intenta nuevamente.");
-}
-}
+});
+
+// procesar formulario
+form.addEventListener('submit', procesarAccion);
+
+// Mostrar historial 
+mostrarHistorial();

@@ -8,9 +8,33 @@
     <body>
         <header>
             <h1>Simulador de Atención al Cliente</h1>
-        </header>
+        </header>     
+        <main>
+            <section id="simulator">
+                <h2>Opciones de atencion al cliente</h2>
+                <form id="interactionForm">
+                    <label for="action">Seleccione lo que desea:</label>
+                    <select id="action" required>
+                        <option value="saldo">Consultar Saldo</option>
+                        <option value="pago">Completar Pago</option>
+                        <option value="asesor">Hablar con un Asesor</option>
+                        <option value="cuotas">Calcular Cuotas</option>
+                        <option value="historial">Mostrar Historial</option>
+                    </select>
+                    <div id="extraInput" style="margin-top: 10px; display: none;">
+                        <label for="extraValue">Información adicional:</label>
+                        <input type="text" id="extraValue" placeholder="Ingresa un valor">
+                    </div>
+                    <button type="submit">Procesar</button>
+                </form>
+            </section>
+            <section id="results">
+                <h2>Resultado</h2>
+                <div id="resultsContainer">No hay resultados aún.</div>
+            </section> 
+        </main>
         <footer>
-          <p>JavaScript - Atención al cliente</p>
+            <p>JavaScript - Atención al Cliente</p>
         </footer>
         <script src="./js/main.js"></script>
     </body>
