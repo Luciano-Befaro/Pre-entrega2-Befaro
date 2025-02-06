@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "nombre": "Luciano Emanuel",
+        "email": "lucho-35@gmail.com",
+        "saldo": 30000
+    },
+    {
+        "id": 2,
+        "nombre": "Aldu Gómez",
+        "email": "al-gomez@gmail.com",
+        "saldo": 25000
+    },
+    {
+        "id": 3,
+        "nombre": "Ramiro López",
+        "email": "ramalopez2@gmail.com",
+        "saldo": 18000
+    }
+]

@@ -1,0 +1,42 @@
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Atención al Cliente</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Simulador de Atención al Cliente</h1>
+    </header>
+    <main>
+        <section id="simulator">
+            <h2>Opciones de atención al cliente</h2>
+            <form id="interactionForm">
+                <label for="action">Seleccione lo que desea:</label>
+                <select id="action" required>
+                    <option value="saldo">Consultar Saldo</option>
+                    <option value="pago">Completar Pago</option>
+                    <option value="asesor">Hablar con un Asesor</option>
+                    <option value="cuotas">Calcular Cuotas</option>
+                </select>
+                <div id="extraInput" style="margin-top: 10px; display: none;">
+                    <label for="extraValue">Información adicional:</label>
+                    <input type="text" id="extraValue" placeholder="Ingresa un valor">
+                </div>
+                <button type="submit">Procesar</button>
+            </form>
+        </section>
+        <section id="results">
+            <h2>Resultado</h2>
+            <div id="resultsContainer">No hay resultados aún.</div>
+        </section>
+    </main>
+    <footer>
+            <p>JavaScript - Atención al Cliente</p> 
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

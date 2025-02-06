@@ -1,41 +1,31 @@
-<!DOCTYPE html>
+<html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro del Cliente</title>
     <link rel="stylesheet" href="./styles/style.css">
-    <title>Document</title>
-    <body>
-        <header>
-            <h1>Simulador de Atención al Cliente</h1>
-        </header>     
-        <main>
-            <section id="simulator">
-                <h2>Opciones de atencion al cliente</h2>
-                <form id="interactionForm">
-                    <label for="action">Seleccione lo que desea:</label>
-                    <select id="action" required>
-                        <option value="saldo">Consultar Saldo</option>
-                        <option value="pago">Completar Pago</option>
-                        <option value="asesor">Hablar con un Asesor</option>
-                        <option value="cuotas">Calcular Cuotas</option>
-                        <option value="historial">Mostrar Historial</option>
-                    </select>
-                    <div id="extraInput" style="margin-top: 10px; display: none;">
-                        <label for="extraValue">Información adicional:</label>
-                        <input type="text" id="extraValue" placeholder="Ingresa un valor">
-                    </div>
-                    <button type="submit">Procesar</button>
-                </form>
-            </section>
-            <section id="results">
-                <h2>Resultado</h2>
-                <div id="resultsContainer">No hay resultados aún.</div>
-            </section> 
-        </main>
-        <footer>
-            <p>JavaScript - Atención al Cliente</p>
-        </footer>
-        <script src="./js/main.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Registro del Cliente</h1>
+    </header>
+    <main>
+        <section id="register">
+            <h2>Ingrese sus datos</h2>
+            <form id="registerForm">
+                <label for="clientName">Nombre del Cliente:</label>
+                <input type="text" id="clientName" placeholder="Ingrese su nombre" required>
+                <label for="clientEmail">Correo Electrónico:</label>
+                <input type="email" id="clientEmail" placeholder="Ingrese su correo" required>
+                <button type="submit">Registrarse</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>JavaScript - Atención al Cliente</p>
+    </footer>
+    <script src="./js/registro.js"></script>
+</body>
 </html>
